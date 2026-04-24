@@ -23,7 +23,6 @@ export default function NoteDetailsClient() {
   return (
     <>
       {isLoading && <p>Loading, please wait...</p>}
-      {error && <p>Something went wrong.</p>}
       {data && (
         <div className={css.container}>
           <div className={css.item}>

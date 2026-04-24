@@ -14,8 +14,8 @@ export default async function Notes() {
       queryKey: ["notes", ""],
       queryFn: () => fetchNotes(""),
     });
-  } catch (Error) {
-    throw Error;
+  } catch (error) {
+    throw error;
   }
 
   return (
