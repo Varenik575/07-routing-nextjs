@@ -5,14 +5,21 @@ import {
 } from "@tanstack/react-query";
 import NotesClient from "@/app/notes/filter/[...slug]/Notes.client";
 import { fetchNotes } from "@/lib/api";
+import { CategoryTag } from "@/types/note";
 
-export default async function Notes() {
+type NotesProps = {
+  params: Promise<{ slug: string[] }>;
+};
+
+export default async function Notes({ params }: NotesProps) {
   const queryClient = new QueryClient();
+  const { slug } = await params;
+  const category = slug[0] === "all" ? undefined : (slug[0] as CategoryTag);
 
   try {
     await queryClient.prefetchQuery({
-      queryKey: ["notes", ""],
-      queryFn: () => fetchNotes(""),
+      queryKey: ["notes", "", category],
+      queryFn: () => fetchNotes("", 1, category),
     });
   } catch (error) {
     throw error;
@@ -20,7 +27,7 @@ export default async function Notes() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient />
+      <NotesClient category={category} />
     </HydrationBoundary>
   );
 }

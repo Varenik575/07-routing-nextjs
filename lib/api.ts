@@ -8,7 +8,7 @@ interface FetchNotesResponse {
     
 }
 
-export const fetchNotes = async(newSearch?:string, newPage:number = 1 ):Promise<FetchNotesResponse> => {
+export const fetchNotes = async(newSearch?:string, newPage:number = 1 , tag?: Note["tag"]):Promise<FetchNotesResponse> => {
     const response:AxiosResponse<FetchNotesResponse> = 
     await axios.get<FetchNotesResponse>(`https://notehub-public.goit.study/api/notes`, {
         headers: {
@@ -17,6 +17,7 @@ export const fetchNotes = async(newSearch?:string, newPage:number = 1 ):Promise<
         params:{
             search: newSearch,
             page: newPage,
+            tag: tag,
             perPage: 12,
             sortBy: "created",
         }

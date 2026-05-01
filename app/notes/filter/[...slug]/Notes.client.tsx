@@ -10,8 +10,13 @@ import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import { useDebouncedCallback } from "use-debounce";
+import { CategoryTag } from "@/types/note";
 
-export default function NotesClient() {
+type NotesProps = {
+  category?: CategoryTag;
+};
+
+export default function NotesClient({ category }: NotesProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [query, setQuery] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -20,8 +25,8 @@ export default function NotesClient() {
   const closeModal = () => setIsModalOpen(false);
 
   const { data, error } = useQuery({
-    queryKey: ["notes", query, currentPage],
-    queryFn: () => fetchNotes(query, currentPage),
+    queryKey: ["notes", query, currentPage, category],
+    queryFn: () => fetchNotes(query, currentPage, category),
     placeholderData: keepPreviousData,
   });
 
